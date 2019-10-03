@@ -72,7 +72,7 @@ def setup():
         orientation = int(input('enter the ship orientation.'))
         playerBoard.placeShip(counter,orientation,x,y)
 
-        showBoard(playerBoard)
+        playerBoard.showBoard()
 
 def main():
     greet()
