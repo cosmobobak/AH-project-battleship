@@ -74,9 +74,22 @@ def setup():
 
         playerBoard.showBoard()
 
+    return enemyBoard,enemyGuesses,playerBoard,playerGuesses
+
+def coordinateParser(coordString):
+    xy = coordString.split()
+    x = ord(xy[0].lower()) - 97
+    y = xy[1]
+    return x,y
+
+def guess():
+    guess = input('enter bombing coordinates: ')
+    guessCol,guessRow = coordinateParser(guess)
+    return
+
 def main():
     greet()
+    enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
 
-setup()
 
-time.sleep(20)
+main()
