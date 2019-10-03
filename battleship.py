@@ -14,13 +14,13 @@ def orientationSeparator(orientation): #converts 4 integer directions into coord
     if orientation == 1: #right
         modx = 1
         mody = 0
-    elif orientation == 2: #down
+    elif orientation == 2: #up
         modx = 0
         mody = -1
     elif orientation == 3: #left
         modx = -1
         mody = 0
-    else: #(4) up
+    else: #(4) down
         modx = 0
         mody = 1
     return modx, mody
