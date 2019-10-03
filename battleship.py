@@ -95,10 +95,14 @@ def coordinateParser(coordString): #turns A3 into (0,2)
 def guess():
     guess = input('enter bombing coordinates: ')
     guessCol,guessRow = coordinateParser(guess)
-    #if enemygueses has a ship
-    #add x print hit
-    #else
-    #add sometihng print miss
+    if enemyGuesses[guessRow][guessCol] != 0:
+        playerGuesses[guessRow][guessCol] = 'X'
+        print('hit!')
+        playerGuesses.showBoard()
+    else:
+        playerGuesses[guessRow][guessCol] = 'M'
+        print('miss.')
+        playerGuesses.showBoard()
     return
 
 def main():
