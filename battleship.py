@@ -11,13 +11,13 @@ def greet():
     print("HELLO "+name+".")
 
 def orientationSeparator(orientation): #converts string directions into coordinate steps
-    if orientation == 'right': #right
+    if orientation == 'right':
         modx,mody = 1,0
-    elif orientation == 'up': #up
+    elif orientation == 'up':
         modx,mody = 0,-1
-    elif orientation == 'left': #left
+    elif orientation == 'left':
         modx,mody = -1,0
-    else: #(4) down
+    else: #down
         modx,mody = 0,1
     return modx, mody
 
