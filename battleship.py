@@ -67,8 +67,8 @@ def setup():
     playerBoard.showBoard()
     for counter in range(1,6):
         print('place your ship of length',counter)
-        x = int(input('enter the row you wish to place the ship'))-1
-        y = int(input('enter the column you wish to place the ship'))-1
+        x = int(input('enter the column you wish to place the ship'))-1
+        y = int(input('enter the row you wish to place the ship'))-1
         orientation = int(input('enter the ship orientation.'))
         playerBoard.placeShip(counter,orientation,x,y)
 
