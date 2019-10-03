@@ -12,17 +12,13 @@ def greet():
 
 def orientationSeparator(orientation): #converts string directions into coordinate steps
     if orientation == 'right': #right
-        modx = 1
-        mody = 0
+        modx,mody = 1,0
     elif orientation == 'up': #up
-        modx = 0
-        mody = -1
+        modx,mody = 0,-1
     elif orientation == 'left': #left
-        modx = -1
-        mody = 0
+        modx,mody = -1,0
     else: #(4) down
-        modx = 0
-        mody = 1
+        modx,mody = 0,1
     return modx, mody
 
 class Board: #the board for ships and the board for guesses
