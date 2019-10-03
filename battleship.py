@@ -70,7 +70,7 @@ def setup():
         x = int(input('enter the row you wish to place the ship'))-1
         y = int(input('enter the column you wish to place the ship'))-1
         orientation = int(input('enter the ship orientation.'))
-        playerBoard = placeShip(counter,orientation,x,y,playerBoard)
+        playerBoard.placeShip(counter,orientation,x,y)
 
         showBoard(playerBoard)
 
