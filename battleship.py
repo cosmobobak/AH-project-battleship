@@ -95,8 +95,8 @@ def setup():
 
 def coordinateParser(coordString): #turns A3 into (0,2)
     xy = [coordString[0],coordString[1:]] #separates A3 into ['A','3']
-    x = ord(xy[0].lower()) - 97 #turns A > a > 97 > 0, B > b > 97 > 0
-    y = int(xy[1])-1
+    y = ord(xy[0].lower()) - 97 #turns A > a > 97 > 0, B > b > 97 > 0
+    x = int(xy[1])-1
     return x,y
 
 def guess():
