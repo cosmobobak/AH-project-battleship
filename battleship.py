@@ -97,13 +97,13 @@ class Board: #the board for ships and the board for guesses
         coordinates = [(x,y)]
         for counter in range(1):
             diffX,diffY = orientationSeparator(self.directions[counter])
-            if board[y+diffY][x+diffX] == board[y][x]:
+            if board.layout[y+diffY][x+diffX] == board.layout[y][x]:
                 coordinates.append((x+diifX,y+diffY))
                 counter = 0
                 continue
         for counter in range(2,4):
             diffX,diffY = orientationSeparator(self.directions[counter])
-            if board[y+diffY][x+diffX] == board[y][x]:
+            if board.layout[y+diffY][x+diffX] == board.layout[y][x]:
                 coordinates.append((x+diifX,y+diffY))
                 counter = 2
                 continue
