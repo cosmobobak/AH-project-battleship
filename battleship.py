@@ -63,8 +63,8 @@ class Board: #the board for ships and the board for guesses
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                orientation,x,y = self.getPlacement(ship)
-                self.placeShip(ship,orientation,x,y)
+                newOrientation,newx,newy = self.getPlacement(ship)
+                self.placeShip(ship,newOrientation,newx,newy)
             if self.layout[y][x] == 0: #tests that placement space is empty
                 self.layout[y][x] = ship #places ship
                 x += modx
@@ -72,8 +72,8 @@ class Board: #the board for ships and the board for guesses
             else:
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                orientation,x,y = self.getPlacement(ship)
-                self.placeShip(ship,orientation,x,y)
+                newOrientation,x,y = self.getPlacement(ship)
+                self.placeShip(ship,newOrientation,newx,newy)
             #print(x,y)
             #showBoard(board)
 
