@@ -97,7 +97,7 @@ def setup():
         orientation = input('enter the ship orientation: ')
         while orientation not in ['left','right','up','down']:
             orientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
-        orientation,x,y = playerBoard.getPlacement(ship)
+        orientation,x,y = playerBoard.getPlacement(counter)
         playerBoard.placeShip(counter,orientation,x,y)
 
         playerBoard.showBoard()
