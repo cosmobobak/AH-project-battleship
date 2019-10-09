@@ -49,7 +49,7 @@ class Board: #the board for ships and the board for guesses
         modx,mody = orientationSeparator(orientation)
         #print(x,y)
         for counter in range(0,ship):
-            if y > len(self.layout)-1 or x > len(self.layout[0])-1:
+            if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.layout = savedLayout
                 print('place your ship of length',ship)
