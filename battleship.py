@@ -60,11 +60,6 @@ class Board: #the board for ships and the board for guesses
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                '''print('place your ship of length',ship)
-                newX,newY = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
-                newOrientation = input('enter the ship orientation: ')
-                while newOrientation not in ['left','right','up','down']:
-                    newOrientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
                 orientation,x,y = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newX,newY)
             if self.layout[y][x] == 0: #tests that placement space is empty
@@ -74,11 +69,6 @@ class Board: #the board for ships and the board for guesses
             else:
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                '''print('place your ship of length',ship)
-                newX,newY = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
-                newOrientation = input('enter the ship orientation: ')
-                while newOrientation not in ['left','right','up','down']:
-                    newOrientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
                 orientation,x,y = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newX,newY)
             #print(x,y)
@@ -92,11 +82,6 @@ def setup():
     print('The board is blank. Place your ships.')
     playerBoard.showBoard()
     for counter in range(1,6):
-        '''print('place your ship of length',counter)
-        x,y = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
-        orientation = input('enter the ship orientation: ')
-        while orientation not in ['left','right','up','down']:
-            orientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
         orientation,x,y = playerBoard.getPlacement(counter)
         playerBoard.placeShip(counter,orientation,x,y)
 
