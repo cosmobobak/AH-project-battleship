@@ -30,7 +30,6 @@ class Board: #the board for ships and the board for guesses
         self.length = height*width
         self.layout = self.generateEmptyBoard()
 
-
     def showBoard(self): #displays the board nicely
         for y in range(self.height):
             for x in range(self.width):
@@ -84,7 +83,6 @@ class Board: #the board for ships and the board for guesses
         for counter in range(1,6):
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
-
             self.showBoard()
 
     def enemySetup(self):
@@ -152,6 +150,7 @@ def coordinateParser(coordString): #turns A3 into (0,2)
 def main():
     greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
+    playerGuesses.guess(playerBoard,input('enter target'))
 
 
 main()
