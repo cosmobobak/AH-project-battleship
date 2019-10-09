@@ -109,12 +109,12 @@ class Board: #the board for ships and the board for guesses
                 continue
         return coordinates
 
-    def checkAllHits(self,coordinates,board):
+    def checkAllHits(self,coordinates):
         place = 0
         hits = []
-        for col in range(board.width):
-            for row in range(board.height):
-                if board[y][x] == 'X':
+        for col in range(self.width):
+            for row in range(self.height):
+                if self.layout[y][x] == 'X':
                     hits.append((x,y))
         while coordinates[0] in hits:
             place+=1
@@ -127,7 +127,7 @@ class Board: #the board for ships and the board for guesses
         if targetBoard.layout[y][x] > 0:
             self.layout[y][x] = 'X'
             print('Hit!')
-            if checkAllHits(getShipPlaces(x,y,targetBoard),self.layout):
+            if self.checkAllHits(getShipPlaces(x,y,targetBoard)):
                 print('Ship sunk!')
             return True
         self.layout[y][x] = '・'
