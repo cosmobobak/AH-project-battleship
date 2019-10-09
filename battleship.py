@@ -39,6 +39,14 @@ class Board: #the board for ships and the board for guesses
             board.append([0]*self.width)
         return board
 
+    def getPlacement(self,ship):
+        print('place your ship of length',ship)
+        x,y = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
+        orientation = input('enter the ship orientation: ')
+        while orientation not in ['left','right','up','down']:
+            orientation = input('enter right/left/up/down: ')
+        return orientation,x,y
+
     def placeShip(self,ship,orientation,x,y): #modifies the board to have a ship on it
         savedLayout = self.layout #saves layout for possible overlaps
         #ship is in range(6)
@@ -52,11 +60,12 @@ class Board: #the board for ships and the board for guesses
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                print('place your ship of length',ship)
+                '''print('place your ship of length',ship)
                 newX,newY = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
                 newOrientation = input('enter the ship orientation: ')
                 while newOrientation not in ['left','right','up','down']:
-                    newOrientation = input('enter right/left/up/down: ')
+                    newOrientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
+                orientation,x,y = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newX,newY)
             if self.layout[y][x] == 0: #tests that placement space is empty
                 self.layout[y][x] = ship #places ship
@@ -65,11 +74,12 @@ class Board: #the board for ships and the board for guesses
             else:
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                print('place your ship of length',ship)
+                '''print('place your ship of length',ship)
                 newX,newY = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
                 newOrientation = input('enter the ship orientation: ')
                 while newOrientation not in ['left','right','up','down']:
-                    newOrientation = input('enter right/left/up/down: ')
+                    newOrientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
+                orientation,x,y = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newX,newY)
             #print(x,y)
             #showBoard(board)
@@ -82,11 +92,12 @@ def setup():
     print('The board is blank. Place your ships.')
     playerBoard.showBoard()
     for counter in range(1,6):
-        print('place your ship of length',counter)
+        '''print('place your ship of length',counter)
         x,y = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
         orientation = input('enter the ship orientation: ')
         while orientation not in ['left','right','up','down']:
-            orientation = input('enter right/left/up/down: ')
+            orientation = input('enter right/left/up/down: ')''' #SLATED FOR REMOVAL
+        orientation,x,y = self.getPlacement(ship)
         playerBoard.placeShip(counter,orientation,x,y)
 
         playerBoard.showBoard()
