@@ -74,19 +74,21 @@ class Board: #the board for ships and the board for guesses
             #print(x,y)
             #showBoard(board)
 
+    def playerSetup(self):
+        print('The board is blank. Place your ships.')
+        self.showBoard()
+        for counter in range(1,6):
+            orientation,x,y = self.getPlacement(counter)
+            self.placeShip(counter,orientation,x,y)
+
+            self.showBoard()
+
 def setup():
     enemyBoard = Board(10,10)
     enemyGuesses = Board(10,10)
     playerBoard = Board(10,10)
     playerGuesses = Board(10,10)
-    print('The board is blank. Place your ships.')
-    playerBoard.showBoard()
-    for counter in range(1,6):
-        orientation,x,y = playerBoard.getPlacement(counter)
-        playerBoard.placeShip(counter,orientation,x,y)
-
-        playerBoard.showBoard()
-
+    playerBoard.playerSetup()
     return enemyBoard,enemyGuesses,playerBoard,playerGuesses
 
 def coordinateParser(coordString): #turns A3 into (0,2)
@@ -111,5 +113,6 @@ def guess():
 def main():
     greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
+
 
 main()
