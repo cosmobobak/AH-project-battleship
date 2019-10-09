@@ -116,7 +116,7 @@ class Board: #the board for ships and the board for guesses
             for row in range(self.height):
                 if self.layout[y][x] == 'X':
                     hits.append((x,y))
-        while coordinates[0] in hits:
+        while coordinates[place] in hits and place < len(coordinates):
             place+=1
         if place == len(coordinates)-1:
             return True
@@ -127,7 +127,7 @@ class Board: #the board for ships and the board for guesses
         if targetBoard.layout[y][x] > 0:
             self.layout[y][x] = 'X'
             print('Hit!')
-            if self.checkAllHits(getShipPlaces(x,y,targetBoard)):
+            if self.checkAllHits(self.getShipPlaces(x,y,targetBoard)):
                 print('Ship sunk!')
             return True
         self.layout[y][x] = '・'
