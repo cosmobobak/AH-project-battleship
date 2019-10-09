@@ -4,7 +4,7 @@ import random #used for enemy guessing
 
 def greet():
     print("WOULD YOU LIKE TO PLAY A GAME?")
-    time.sleep(3)
+    time.sleep(2)
     print()
     name = input("ENTER NAME: ")
     name = name.upper()
@@ -148,7 +148,7 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     return x,y
 
 def main():
-    greet()
+    #greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerGuesses.guess(playerBoard,input('enter target'))
 
