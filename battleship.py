@@ -53,8 +53,7 @@ class Board: #the board for ships and the board for guesses
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.layout = savedLayout
                 print('place your ship of length',ship)
-                newX = int(input('enter the column you wish to place the ship head: '))-1
-                newY = int(input('enter the row you wish to place the ship head: '))-1
+                newX,newY = input('enter the coordinate you wish to place the ship head: '))
                 newOrientation = input('enter the ship orientation: ')
                 while newOrientation not in ['left','right','up','down']:
                     newOrientation = input('enter right/left/up/down: ')
@@ -67,8 +66,7 @@ class Board: #the board for ships and the board for guesses
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
                 self.layout = savedLayout
                 print('place your ship of length',ship)
-                newX = int(input('enter the column you wish to place the ship head: '))-1
-                newY = int(input('enter the row you wish to place the ship head: '))-1
+                newX,newY = input('enter the coordinate you wish to place the ship head: '))
                 newOrientation = input('enter the ship orientation: ')
                 while newOrientation not in ['left','right','up','down']:
                     newOrientation = input('enter right/left/up/down: ')
@@ -85,8 +83,7 @@ def setup():
     playerBoard.showBoard()
     for counter in range(1,6):
         print('place your ship of length',counter)
-        x = int(input('enter the column you wish to place the ship head: '))-1
-        y = int(input('enter the row you wish to place the ship head: '))-1
+        x,y = input('enter the coordinate you wish to place the ship head: '))
         orientation = input('enter the ship orientation: ')
         while orientation not in ['left','right','up','down']:
             orientation = input('enter right/left/up/down: ')
