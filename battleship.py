@@ -27,6 +27,7 @@ class Board: #the board for ships and the board for guesses
     def __init__(self,height,width): #instantiates a board
         self.height = height
         self.width = width
+        self.length = height*width
         self.layout = self.generateEmptyBoard()
 
 
@@ -110,12 +111,25 @@ class Board: #the board for ships and the board for guesses
                 continue
         return coordinates
 
+    def checkAllHits(self,coordinates,board):
+        place = 0
+        hits = []
+        for col in range(board.width):
+            for row in range(board.height):
+                if board[y][x] == 'X':
+                    hits.append((x,y))
+        while coordinates[0] in hits:
+            place+=1
+        if place == len(coordinates)-1:
+            return True
+        return False
+
     def guess(self,targetBoard,coordinate):
         x,y = coordinateParser(coordinate)
         if targetBoard.layout[y][x] > 0:
             self.layout[y][x] = 'X'
             print('Hit!')
-            #if checkAllHits(getShipPlaces(x,y,targetBoard),self.layout):
+            if checkAllHits(getShipPlaces(x,y,targetBoard),self.layout):
                 print('Ship sunk!')
             return True
         self.layout[y][x] = '・'
