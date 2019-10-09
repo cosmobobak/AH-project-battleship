@@ -64,7 +64,7 @@ class Board: #the board for ships and the board for guesses
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.layout = savedLayout
                 orientation,x,y = self.getPlacement(ship)
-                self.placeShip(ship,newOrientation,newX,newY)
+                self.placeShip(ship,orientation,x,y)
             if self.layout[y][x] == 0: #tests that placement space is empty
                 self.layout[y][x] = ship #places ship
                 x += modx
@@ -73,7 +73,7 @@ class Board: #the board for ships and the board for guesses
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
                 self.layout = savedLayout
                 orientation,x,y = self.getPlacement(ship)
-                self.placeShip(ship,newOrientation,newX,newY)
+                self.placeShip(ship,orientation,x,y)
             #print(x,y)
             #showBoard(board)
 
