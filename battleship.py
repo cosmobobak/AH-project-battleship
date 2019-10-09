@@ -49,6 +49,16 @@ class Board: #the board for ships and the board for guesses
         modx,mody = orientationSeparator(orientation)
         #print(x,y)
         for counter in range(0,ship):
+            if y > len(self.layout)-1 or x > len(self.layout[0])-1:
+                print('SHIP OFF BOARD: PLACE ELSEWHERE')
+                self.layout = savedLayout
+                print('place your ship of length',ship)
+                newX = int(input('enter the column you wish to place the ship head: '))-1
+                newY = int(input('enter the row you wish to place the ship head: '))-1
+                newOrientation = input('enter the ship orientation: ')
+                while newOrientation not in ['left','right','up','down']:
+                    newOrientation = input('enter right/left/up/down: ')
+                self.placeShip(ship,newOrientation,newX,newY)
             if self.layout[y][x] == 0: #tests that placement space is empty
                 self.layout[y][x] = ship #places ship
                 x += modx
