@@ -1,5 +1,6 @@
 #battleship
 import time #used for delaying output nicely
+import random #used for enemy guessing
 
 def greet():
     print("WOULD YOU LIKE TO PLAY A GAME?")
@@ -82,6 +83,14 @@ class Board: #the board for ships and the board for guesses
             self.placeShip(counter,orientation,x,y)
 
             self.showBoard()
+
+    def enemySetup(self):
+        for counter in range(1,6):
+            '''[
+            PUT THE DATABASE INTERFACING HERE
+            ]'''
+            orientation,x,y = ['right','left','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
+            self.placeShip(counter,orientation,x,y)
 
 def setup():
     enemyBoard = Board(10,10)
