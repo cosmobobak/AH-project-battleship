@@ -23,12 +23,12 @@ def orientationSeparator(orientation): #converts string directions into coordina
     return modx, mody
 
 class Board: #the board for ships and the board for guesses
-    self.directions = ['left','right','up','down']
     def __init__(self,height,width): #instantiates a board
         self.height = height
         self.width = width
         self.length = height*width
         self.layout = self.generateEmptyBoard()
+        self.directions = ['left','right','up','down']
 
     def showBoard(self): #displays the board nicely
         for y in range(self.height):
