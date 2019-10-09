@@ -23,10 +23,12 @@ def orientationSeparator(orientation): #converts string directions into coordina
     return modx, mody
 
 class Board: #the board for ships and the board for guesses
+    self.directions = ['left','right','up','down']
     def __init__(self,height,width): #instantiates a board
         self.height = height
         self.width = width
         self.layout = self.generateEmptyBoard()
+
 
     def showBoard(self): #displays the board nicely
         for y in range(self.height):
@@ -44,7 +46,7 @@ class Board: #the board for ships and the board for guesses
         print('place your ship of length',ship)
         x,y = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
         orientation = input('enter the ship orientation: ')
-        while orientation not in ['left','right','up','down']:
+        while orientation not in self.directions:
             orientation = input('enter right/left/up/down: ')
         return orientation,x,y
 
@@ -54,7 +56,7 @@ class Board: #the board for ships and the board for guesses
         #orientation is a direction string
         #x is the x position of the head of the ship
         #y is the y position of the head of the ship
-        #self.layout is expected to be a 10x10 2D array
+        #self.layout is expected to be a 2D array
         modx,mody = orientationSeparator(orientation)
         #print(x,y)
         for counter in range(0,ship):
@@ -89,8 +91,35 @@ class Board: #the board for ships and the board for guesses
             '''[
             PUT THE DATABASE INTERFACING HERE
             ]'''
-            orientation,x,y = ['right','left','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
+            orientation,x,y = self.directions[random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
             self.placeShip(counter,orientation,x,y)
+
+    def getShipPlaces(self,x,y,board):#returns the coordinates of the ship blocks
+        coordinates = [(x,y)]
+        for counter in range(1):
+            diffX,diffY = orientationSeparator(self.directions[counter])
+            if board[y+diffY][x+diffX] == board[y][x]:
+                coordinates.append((x+diifX,y+diffY))
+                counter = 0
+                continue
+        for counter in range(2,4):
+            diffX,diffY = orientationSeparator(self.directions[counter])
+            if board[y+diffY][x+diffX] == board[y][x]:
+                coordinates.append((x+diifX,y+diffY))
+                counter = 2
+                continue
+        return coordinates
+
+    def guess(self,targetBoard,coordinate):
+        x,y = coordinateParser(coordinate)
+        if targetBoard.layout[y][x] > 0:
+            self.layout[y][x] = 'X'
+            print('Hit!')
+            #if checkAllHits(getShipPlaces(x,y,targetBoard),self.layout):
+                print('Ship sunk!')
+            return True
+        self.layout[y][x] = '・'
+        return False
 
 def setup():
     enemyBoard = Board(10,10)
@@ -105,19 +134,6 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     y = ord(xy[0].lower()) - 97 #turns A > a > 97 > 0, B > b > 97 > 0
     x = int(xy[1])-1
     return x,y
-
-def guess():
-    guess = input('enter bombing coordinates: ')
-    guessCol,guessRow = coordinateParser(guess)
-    if enemyGuesses[guessRow][guessCol] != 0:
-        playerGuesses[guessRow][guessCol] = 'X'
-        print('hit!')
-        playerGuesses.showBoard()
-    else:
-        playerGuesses[guessRow][guessCol] = 'M'
-        print('miss.')
-        playerGuesses.showBoard()
-    return
 
 def main():
     greet()
