@@ -1,6 +1,7 @@
 #battleship
 import time #used for delaying output nicely
 import random #used for enemy guessing
+import mysql.connector #this may be mysql-connector?
 
 def greet():
     print("WOULD YOU LIKE TO PLAY A GAME?")
@@ -85,6 +86,29 @@ class Board: #the board for ships and the board for guesses
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
 
+    '''db format is [enemyid,enemyname,ship,orient]
+    so to get all ships do SELECT * FROM enemyBoards WHERE enemyid = X
+    then put those ships on the board procedurally
+    probably use parallel arrays'''
+    
+    def databaseInterface():
+        try:
+            conn = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                passwd="",
+                database="enemyBoards"
+            )
+        except:
+            print("Database connection error")
+        else:
+            stuff = []
+            mycursor = conn.cursor()
+            mycursor.execute("SELECT * FROM enemyBoards WHERE enemyid = X")
+            myresult = mycursor.fetchall()
+            for x in myresult:
+                stuff.append(x)
+            
     def enemySetup(self):
         for counter in range(1,6):
             '''[
