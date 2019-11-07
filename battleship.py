@@ -30,7 +30,6 @@ class Board: #the board for ships and the board for guesses
         self.width = width
         self.length = height*width
         self.layout = self.generateEmptyBoard()
-        self.directions = ['left','right','up','down']
 
     def showBoard(self): #displays the board nicely
         for y in range(self.height):
@@ -51,7 +50,7 @@ class Board: #the board for ships and the board for guesses
             coordinate = input('enter the coordinate you wish to place the ship head (of the form A1): ')
         x,y = coordinateParser(coordinate)
         orientation = input('enter the ship orientation: ')
-        while orientation not in self.directions:
+        while not re.search("left|right|up|down",orientation)
             orientation = input('enter right/left/up/down: ')
         return orientation,x,y
 
@@ -118,19 +117,19 @@ class Board: #the board for ships and the board for guesses
             '''[
             PUT THE DATABASE INTERFACING HERE
             ]'''
-            orientation,x,y = self.directions[random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
+            orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
             self.placeShip(counter,orientation,x,y)
 
     def getShipPlaces(self,x,y,board):#returns the coordinates of the ship blocks
         coordinates = [(x,y)]
         for counter in range(1):
-            diffX,diffY = orientationSeparator(self.directions[counter])
+            diffX,diffY = orientationSeparator(['left','right','up','down'][counter])
             if board.layout[y+diffY][x+diffX] == board.layout[y][x]:
                 coordinates.append((x+diffX,y+diffY))
                 counter = 0
                 continue
         for counter in range(2,4):
-            diffX,diffY = orientationSeparator(self.directions[counter])
+            diffX,diffY = orientationSeparator(['left','right','up','down'][counter])
             if board.layout[y+diffY][x+diffX] == board.layout[y][x]:
                 coordinates.append((x+diffX,y+diffY))
                 counter = 2
