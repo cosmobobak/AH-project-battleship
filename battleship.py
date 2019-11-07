@@ -1,6 +1,8 @@
 #battleship
 import time #used for delaying output nicely
 import random #used for enemy guessing
+#import mysql.connector #this may be mysql-connector?
+import re
 
 def greet():
     print("WOULD YOU LIKE TO PLAY A GAME?")
@@ -44,7 +46,10 @@ class Board: #the board for ships and the board for guesses
 
     def getPlacement(self,ship):
         print('place your ship of length',ship)
-        x,y = coordinateParser(input('enter the coordinate you wish to place the ship head: '))
+        coordinate = input('enter the coordinate you wish to place the ship head: ')
+        while not re.search("[ABCDEFGHIJ]\d+",coordinate):
+            coordinate = input('enter the coordinate you wish to place the ship head (of the form A1): ')
+        x,y = coordinateParser(coordinate)
         orientation = input('enter the ship orientation: ')
         while orientation not in self.directions:
             orientation = input('enter right/left/up/down: ')
@@ -72,7 +77,7 @@ class Board: #the board for ships and the board for guesses
             else:
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
                 self.layout = savedLayout
-                newOrientation,x,y = self.getPlacement(ship)
+                newOrientation,newx,newy = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newx,newy)
             #print(x,y)
             #showBoard(board)
@@ -84,6 +89,29 @@ class Board: #the board for ships and the board for guesses
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
+
+    '''db format is [enemyid,enemyname,ship,orient]
+    so to get all ships do SELECT * FROM enemyBoards WHERE enemyid = X
+    then put those ships on the board procedurally
+    probably use parallel arrays'''
+
+    def databaseInterface():
+        try:
+            conn = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                passwd="",
+                database="enemyBoards"
+            )
+        except:
+            print("Database connection error")
+        else:
+            stuff = []
+            mycursor = conn.cursor()
+            mycursor.execute("SELECT * FROM enemyBoards WHERE enemyid = X")
+            myresult = mycursor.fetchall()
+            for x in myresult:
+                stuff.append(x)
 
     def enemySetup(self):
         for counter in range(1,6):
