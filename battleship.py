@@ -1,7 +1,7 @@
 #battleship
 import time #used for delaying output nicely
 import random #used for enemy guessing
-#import mysql.connector #this may be mysql-connector?
+import mysql.connector
 import re
 
 def greet():
@@ -107,10 +107,15 @@ class Board: #the board for ships and the board for guesses
         else:
             stuff = []
             mycursor = conn.cursor()
-            mycursor.execute("SELECT * FROM enemyBoards WHERE enemyid = X")
+            mycursor.execute('SELECT * FROM enemyBoards WHERE enemyid = "X"')
             myresult = mycursor.fetchall()
             for x in myresult:
                 stuff.append(x)
+
+
+
+            print(stuff)
+            return stuff
 
     def enemySetup(self):
         for counter in range(1,6):
