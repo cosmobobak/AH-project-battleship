@@ -31,6 +31,13 @@ class Board: #the board for ships and the board for guesses
         self.length = height*width
         self.layout = self.generateEmptyBoard()
 
+    def coordRegexCheck(self,message):
+        print(message+': ')
+        coordinate = input('==> ')
+        while not re.search("[ABCDEFGHIJ]\d+",coordinate):
+            print(message,'(of the form A1): ')
+            coordinate = input('==> ')
+
     def showBoard(self): #displays the board nicely
         for y in range(self.height):
             for x in range(self.width):
@@ -179,10 +186,15 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     x = int(xy[1])-1
     return x,y
 
+def gameLoop():
+    end = False
+    while not end:
+        playerGuesses.guess(playerBoard,input('enter target'))
+
 def main():
     #greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
-    playerGuesses.guess(playerBoard,input('enter target'))
+
 
 
 main()
