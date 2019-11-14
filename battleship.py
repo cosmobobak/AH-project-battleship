@@ -163,13 +163,13 @@ class Board: #the board for ships and the board for guesses
 
     def guess(self,targetBoard,coordinate):
         x,y = coordinateParser(coordinate)
-        if targetBoard.layout[y][x] > 0:
-            self.layout[y][x] = 'X'
+        if targetBoard.layout[y][x] > 0: #is there a thing in the coord?
+            self.layout[y][x] = 'X' #add hit to guess board
             print('Hit!')
             if self.checkAllHits(self.getShipPlaces(x,y,targetBoard)):
                 print('Ship sunk!')
             return True
-        self.layout[y][x] = '・'
+        self.layout[y][x] = '・' #add miss to guess board
         return False
 
 def setup():
@@ -186,14 +186,31 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     x = int(xy[1])-1
     return x,y
 
+def winCheck(self):
+    pass
+    #count hits, if enough, win!
+
 def gameLoop():
     end = False
     while not end:
         playerGuesses.guess(playerBoard,input('enter target'))
+        #check if won
+        if end:
+            print('You win!')
+            return
+        enemyGuesses.guess()
+        #check if won
+    print('You lose. Better luck next time!')
 
 def main():
-    #greet()
+    greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
+    gameLoop()
+    print('GAME OVER. PLAY AGAIN?')
+    while not re.search("[YN]",(response := input('Y/N: '))): #the walrus op is unlikely to work here, keep an eye.
+        pass
+    if response == 'Y':
+        main()
 
 
 
