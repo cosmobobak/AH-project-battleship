@@ -211,6 +211,10 @@ def main():
         pass
     if response == 'Y':
         main()
+    else:
+        print('GOODBYE.')
+        time.sleep(3)
+        return
 
 
 
