@@ -57,7 +57,7 @@ class Board: #the board for ships and the board for guesses
             coordinate = input('enter the coordinate you wish to place the ship head (of the form A1): ')
         x,y = coordinateParser(coordinate)
         orientation = input('enter the ship orientation: ')
-        while not re.search("left|right|up|down",orientation)
+        while not re.search("left|right|up|down",orientation):
             orientation = input('enter right/left/up/down: ')
         return orientation,x,y
 
@@ -194,7 +194,9 @@ def setup():
     playerBoard = Board(10,10)
     playerGuesses = Board(10,10)
     playerBoard.playerSetup()
-    return enemyBoard,enemyGuesses,playerBoard,playerGuesses
+    enemyBoard.enemySetup()
+    print(enemyBoard)
+    #return enemyBoard,enemyGuesses,playerBoard,playerGuesses
 
 def coordinateParser(coordString): #turns A3 into (0,2)
     xy = [coordString[0],coordString[1:]] #separates A3 into ['A','3']
@@ -232,4 +234,5 @@ def main():
         time.sleep(3)
         return
 
-main()
+#main()
+setup()
