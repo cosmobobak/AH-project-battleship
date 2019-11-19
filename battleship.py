@@ -88,6 +88,22 @@ class Board: #the board for ships and the board for guesses
             #print(x,y)
             #showBoard(board)
 
+    def autoPlaceShip(self,ship,orientation,x,y):
+        savedLayout = self.layout
+        modx,mody = orientationSeparator(orientation)
+        for counter in range(0,ship):
+            if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
+                self.layout = savedLayout
+                return False
+            if self.layout[y][x] == 0: #tests that placement space is empty
+                self.layout[y][x] = ship #places ship
+                x += modx
+                y += mody
+            else:
+                self.layout = savedLayout
+                return False
+        return True
+
     def playerSetup(self):
         print('The board is blank. Place your ships.')
         self.showBoard()
@@ -95,11 +111,6 @@ class Board: #the board for ships and the board for guesses
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
-
-    '''db format is [enemyid,enemyname,ship,orient]
-    so to get all ships do SELECT * FROM enemyBoards WHERE enemyid = X
-    then put those ships on the board procedurally
-    probably use parallel arrays'''
 
     def databaseInterface():
         try:
@@ -116,6 +127,8 @@ class Board: #the board for ships and the board for guesses
             mycursor = conn.cursor()
             mycursor.execute('SELECT * FROM enemyBoards WHERE enemyid = "X"')
             myresult = mycursor.fetchall()
+            '''then put those ships on the board procedurally
+            probably use parallel arrays'''
             for x in myresult:
                 stuff.append(x)
 
@@ -130,7 +143,10 @@ class Board: #the board for ships and the board for guesses
             PUT THE DATABASE INTERFACING HERE
             ]'''
             orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
-            self.placeShip(counter,orientation,x,y)
+            result = False
+            while not result:
+                orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
+                result = self.autoPlaceShip(counter,orientation,x,y)
 
     def getShipPlaces(self,x,y,board):#returns the coordinates of the ship blocks
         coordinates = [(x,y)]
@@ -215,7 +231,5 @@ def main():
         print('GOODBYE.')
         time.sleep(3)
         return
-
-
 
 main()
