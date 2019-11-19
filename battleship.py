@@ -1,7 +1,7 @@
 #battleship
 import time #used for delaying output nicely
 import random #used for enemy guessing
-import mysql.connector
+#import mysql.connector
 import re
 
 def greet():
@@ -195,8 +195,7 @@ def setup():
     playerGuesses = Board(10,10)
     playerBoard.playerSetup()
     enemyBoard.enemySetup()
-    print(enemyBoard)
-    #return enemyBoard,enemyGuesses,playerBoard,playerGuesses
+    return enemyBoard,enemyGuesses,playerBoard,playerGuesses
 
 def coordinateParser(coordString): #turns A3 into (0,2)
     xy = [coordString[0],coordString[1:]] #separates A3 into ['A','3']
