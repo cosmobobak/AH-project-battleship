@@ -39,7 +39,12 @@ class Board: #the board for ships and the board for guesses
             coordinate = input('==> ')
 
     def showBoard(self): #displays the board nicely
+        print('X  ',end = '')
+        for counter in range(self.width):
+            print(counter+1,' ',end = '')
+        print()
         for y in range(self.height):
+            print(['A','B','C','D','E','F','G','H','I','J'][y],' ',end = '')
             for x in range(self.width):
                 print(self.layout[y][x],' ',end = '')
             print()
