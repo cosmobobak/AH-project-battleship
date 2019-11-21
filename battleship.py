@@ -240,3 +240,5 @@ def main():
 
 #main()
 setup()
+
+'''Allow users to input a1 instead of A1, and make coordRegexCheck return the coord + make it used for all checking'''
