@@ -9,9 +9,8 @@ def greet():
     time.sleep(2)
     print()
     name = input("ENTER NAME: ")
-    name = name.upper()
     time.sleep(1)
-    print("HELLO "+name+".")
+    print("HELLO "+name.upper()+".")
 
 def orientationSeparator(orientation): #converts string directions into coordinate steps
     if orientation == 'right':
