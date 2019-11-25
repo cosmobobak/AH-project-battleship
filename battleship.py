@@ -9,9 +9,8 @@ def greet():
     time.sleep(2)
     print()
     name = input("ENTER NAME: ")
-    name = name.upper()
     time.sleep(1)
-    print("HELLO "+name+".")
+    print("HELLO "+name.upper()+".")
 
 def orientationSeparator(orientation): #converts string directions into coordinate steps
     if orientation == 'right':
@@ -34,9 +33,18 @@ class Board: #the board for ships and the board for guesses
     def coordRegexCheck(self,message):
         print(message+': ')
         coordinate = input('==> ')
-        while not re.search("[ABCDEFGHIJ]\d+",coordinate):
+        while not re.search("^[ABCDEFGHIJabcdefghij]([1-9]|10)$",coordinate):
             print(message,'(of the form A1): ')
             coordinate = input('==> ')
+        return coordinate
+
+    def directionRegexCheck(self,message):
+        print(message+': ')
+        direction = input('==> ')
+        while not re.search("^left|right|up|down$",direction):
+            print(message,'left/right/up/down: ')
+            direction = input('==> ')
+        return direction
 
     def showBoard(self): #displays the board nicely
         print('X  ',end = '')
@@ -57,13 +65,9 @@ class Board: #the board for ships and the board for guesses
 
     def getPlacement(self,ship):
         print('place your ship of length',ship)
-        coordinate = input('enter the coordinate you wish to place the ship head: ')
-        while not re.search("[ABCDEFGHIJ]\d+",coordinate):
-            coordinate = input('enter the coordinate you wish to place the ship head (of the form A1): ')
+        coordinate = self.coordRegexCheck('enter the coordinate you wish to place the ship head')
         x,y = coordinateParser(coordinate)
-        orientation = input('enter the ship orientation: ')
-        while not re.search("left|right|up|down",orientation):
-            orientation = input('enter right/left/up/down: ')
+        orientation = self.directionRegexCheck('enter the ship orientation')
         return orientation,x,y
 
     def placeShip(self,ship,orientation,x,y): #modifies the board to have a ship on it
@@ -82,7 +86,7 @@ class Board: #the board for ships and the board for guesses
                 newOrientation,newx,newy = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newx,newy)
             if self.layout[y][x] == 0: #tests that placement space is empty
-                self.layout[y][x] = ship #places ship
+                self.layout[y][x] = ship #places ship bit
                 x += modx
                 y += mody
             else:
@@ -212,7 +216,7 @@ def winCheck(self):
     pass
     #count hits, if enough, win!
 
-def gameLoop():
+def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
     end = False
     while not end:
         playerGuesses.guess(playerBoard,input('enter target'))
@@ -227,16 +231,16 @@ def gameLoop():
 def main():
     greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
-    gameLoop()
+    gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses)
     print('GAME OVER. PLAY AGAIN?')
     while not re.search("[YN]",(response := input('Y/N: '))): #the walrus op is unlikely to work here, keep an eye.
         pass
     if response == 'Y':
         main()
-    else:
         print('GOODBYE.')
+    else:
         time.sleep(3)
         return
 
-#main()
-setup()
+main()
+#setup()
