@@ -115,37 +115,22 @@ class Board: #the board for ships and the board for guesses
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
-
-    def databaseInterface():
+'''
+    def databaseInterface(data):
         try:
             conn = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                passwd="",
+                password="",
                 database="enemyBoards"
             )
         except:
             print("Database connection error")
         else:
-            stuff = []
-            mycursor = conn.cursor()
-            mycursor.execute('SELECT * FROM enemyBoards WHERE enemyid = "X"')
-            myresult = mycursor.fetchall()
-            '''then put those ships on the board procedurally
-            probably use parallel arrays'''
-            for x in myresult:
-                stuff.append(x)
-
-
-
-            print(stuff)
-            return stuff
-
+            pass
+^^^Put this in a different file^^^ '''
     def enemySetup(self):
         for counter in range(1,6):
-            '''[
-            PUT THE DATABASE INTERFACING HERE
-            ]'''
             orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
             result = False
             while not result:
@@ -236,6 +221,8 @@ def main():
         print('GOODBYE.')
         time.sleep(3)
         return
+    #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
+    os.system("python filepath.py") #use this to exec the database code
 
 #main()
 setup()
