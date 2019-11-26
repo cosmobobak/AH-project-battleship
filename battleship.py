@@ -120,7 +120,7 @@ class Board: #the board for ships and the board for guesses
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
-'''
+    '''
     def databaseInterface(data):
         try:
             conn = mysql.connector.connect(
@@ -133,7 +133,7 @@ class Board: #the board for ships and the board for guesses
             print("Database connection error")
         else:
             pass
-^^^Put this in a different file^^^ '''
+    ^^^Put this in a different file^^^ '''
     def enemySetup(self):
         for counter in range(1,6):
             orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
