@@ -197,8 +197,9 @@ def setup():
     enemyGuesses = Board(10,10)
     playerBoard = Board(10,10)
     playerGuesses = Board(10,10)
-    playerBoard.playerSetup()
+    #playerBoard.playerSetup()
     enemyBoard.enemySetup()
+    copyBoard(enemyBoard,playerBoard) #temp
     return enemyBoard,enemyGuesses,playerBoard,playerGuesses
 
 def coordinateParser(coordString): #turns A3 into (0,2)
@@ -224,7 +225,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
     print('You lose. Better luck next time!')
 
 def main():
-    greet()
+    #greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses)
     print('GAME OVER. PLAY AGAIN?')
@@ -240,4 +241,3 @@ def main():
     os.system("python filepath.py") #use this to exec the database code
 
 main()
-#setup()
