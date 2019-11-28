@@ -57,6 +57,11 @@ class Board: #the board for ships and the board for guesses
                 print(self.layout[y][x],' ',end = '')
             print()
 
+    def copyBoard(self,source,target):
+        for col in range(len(target)):
+                for row in range(len(target[0])):
+                    target[col][row] = source[col][row]
+
     def generateEmptyBoard(self): #returns an empty board of the object's dimensions
         board = []
         for counter in range(self.height):
@@ -71,7 +76,8 @@ class Board: #the board for ships and the board for guesses
         return orientation,x,y
 
     def placeShip(self,ship,orientation,x,y): #modifies the board to have a ship on it
-        savedLayout = self.layout #saves layout for possible overlaps
+        savedLayout = self.generateEmptyBoard()
+        self.copyBoard(self.layout,savedLayout)#saves layout for possible overlaps
         #ship is in range(6)
         #orientation is a direction string
         #x is the x position of the head of the ship
@@ -82,7 +88,7 @@ class Board: #the board for ships and the board for guesses
         for counter in range(0,ship):
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
-                self.layout = savedLayout
+                self.copyBoard(savedLayout,self.layout)
                 newOrientation,newx,newy = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newx,newy)
             if self.layout[y][x] == 0: #tests that placement space is empty
@@ -91,7 +97,11 @@ class Board: #the board for ships and the board for guesses
                 y += mody
             else:
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
-                self.layout = savedLayout
+
+                self.copyBoard(savedLayout,self.layout)
+
+                self.showBoard()
+
                 newOrientation,newx,newy = self.getPlacement(ship)
                 self.placeShip(ship,newOrientation,newx,newy)
             #print(x,y)
