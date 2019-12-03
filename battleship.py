@@ -47,6 +47,7 @@ class Board: #the board for ships and the board for guesses
         return direction
 
     def showBoard(self): #displays the board nicely
+        print('================================')
         print('X  ',end = '')
         for counter in range(self.width):
             print(counter+1,' ',end = '')
@@ -56,6 +57,7 @@ class Board: #the board for ships and the board for guesses
             for x in range(self.width):
                 print(self.layout[y][x],' ',end = '')
             print()
+        print('================================')
 
     def copyBoard(self,source,target):
         for col in range(len(target)):
@@ -229,6 +231,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
     while not end:
         if playerGuesses.guess(playerBoard,playerGuesses.coordRegexCheck('enter target')):
             print('hit!')
+            print('YOUR GUESSES:')
             playerGuesses.showBoard()
         else:
             print('miss')
@@ -237,6 +240,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
             return
         if enemyGuesses.guess(enemyBoard,randomCoordinate()):
             print('ship hit!')
+            print('ENEMY GUESSES:')
             enemyGuesses.showBoard()
         else:
             print('ships are safe.')
