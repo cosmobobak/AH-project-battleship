@@ -184,13 +184,23 @@ class Board: #the board for ships and the board for guesses
 
     def guess(self,targetBoard,coordinate):
         x,y = coordinateParser(coordinate)
+        print(x,y)
         if targetBoard.layout[y][x] > 0: #is there a thing in the coord?
             self.layout[y][x] = 'X' #add hit to guess board
-            print('Hit!')
             if self.checkAllHits(self.getShipPlaces(x,y,targetBoard)):
                 print('Ship sunk!')
             return True
-        self.layout[y][x] = '・' #add miss to guess board
+        self.layout[y][x] = 'M' #add miss to guess board
+        return False
+
+    def winCheck(self):
+        hitCount = 0
+        for col in range(self.width):
+            for row in range(self.height):
+                if self.layout[col][row] == 'X':
+                    hitCount+=1
+        if hitCount>=15:
+            return True
         return False
 
 def setup():
@@ -209,26 +219,31 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     x = int(xy[1])-1
     return x,y
 
-def winCheck(self):
-    pass
-    #count hits, if enough, win!
-
 def randomCoordinate():
-    letter = ['A','B','C','D','E','F','G','H','I','J'][random.randint(0,10)]
-    number = random.randint(1,11)
+    letter = ['A','B','C','D','E','F','G','H','I','J'][random.randint(0,9)]
+    number = random.randint(1,10)
     return letter+str(number)
 
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
     end = False
     while not end:
-        playerGuesses.guess(playerBoard,input('enter target'))
-        #check if won
-        if end:
+        if playerGuesses.guess(playerBoard,input('enter target')):
+            print('hit!')
+            playerGuesses.showBoard()
+        else:
+            print('miss')
+        if playerGuesses.winCheck():
             print('You win!')
             return
-        enemyGuesses.guess(enemyBoard,randomCoordinate())
-        #check if won
-    print('You lose. Better luck next time!')
+        if enemyGuesses.guess(enemyBoard,randomCoordinate()):
+            print('ship hit!')
+            enemyGuesses.showBoard()
+        else:
+            print('ships are safe.')
+        if enemyGuesses.winCheck():
+            print('You lose. Better luck next time!')
+            return
+    return
 
 def main():
     #greet()
@@ -244,6 +259,5 @@ def main():
         time.sleep(3)
         return
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
-    os.system("python filepath.py") #use this to exec the database code
 
 main()
