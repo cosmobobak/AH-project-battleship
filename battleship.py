@@ -187,8 +187,8 @@ class Board: #the board for ships and the board for guesses
         print(x,y)
         if targetBoard.layout[y][x] > 0: #is there a thing in the coord?
             self.layout[y][x] = 'X' #add hit to guess board
-            if self.checkAllHits(self.getShipPlaces(x,y,targetBoard)):
-                print('Ship sunk!')
+            #if self.checkAllHits(self.getShipPlaces(x,y,targetBoard)):
+                #print('Ship sunk!')
             return True
         self.layout[y][x] = 'M' #add miss to guess board
         return False
@@ -227,7 +227,7 @@ def randomCoordinate():
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
     end = False
     while not end:
-        if playerGuesses.guess(playerBoard,input('enter target')):
+        if playerGuesses.guess(playerBoard,playerGuesses.coordRegexCheck('enter target')):
             print('hit!')
             playerGuesses.showBoard()
         else:
