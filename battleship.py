@@ -108,18 +108,19 @@ class Board: #the board for ships and the board for guesses
             #showBoard(board)
 
     def autoPlaceShip(self,ship,orientation,x,y):
-        savedLayout = self.layout
+        savedLayout = self.generateEmptyBoard()
+        self.copyBoard(self.layout,savedLayout)
         modx,mody = orientationSeparator(orientation)
         for counter in range(0,ship):
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
-                self.layout = savedLayout
+                self.copyBoard(savedLayout,self.layout)
                 return False
             if self.layout[y][x] == 0: #tests that placement space is empty
                 self.layout[y][x] = ship #places ship
                 x += modx
                 y += mody
             else:
-                self.layout = savedLayout
+                self.copyBoard(savedLayout,self.layout)
                 return False
         return True
 
