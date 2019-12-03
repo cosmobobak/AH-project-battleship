@@ -1,3 +1,3 @@
 import os
 
-os.system('python battleship')
+os.system(r'python C:\Users\bobakcjs\Documents\GitHub\battleship.py')
