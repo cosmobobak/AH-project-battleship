@@ -133,20 +133,7 @@ class Board: #the board for ships and the board for guesses
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
-    '''
-    def databaseInterface(data):
-        try:
-            conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="",
-                database="enemyBoards"
-            )
-        except:
-            print("Database connection error")
-        else:
-            pass
-    ^^^Put this in a different file^^^ '''
+    
     def enemySetup(self):
         for counter in range(1,6):
             orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
@@ -252,14 +239,16 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
 def main():
     #greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
+    playerBoard.showBoard()
     gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses)
     print('GAME OVER. PLAY AGAIN?')
-    while not re.search("[YN]",(response := input('Y/N: '))): #the walrus op is unlikely to work here, keep an eye.
-        pass
-    if response == 'Y':
+    response = input('Y/N: ')
+    while not re.search("[YNyn]",(response)):
+        response = input('Y/N: ')
+    if response in ['Y','y']:
         main()
         print('GOODBYE.')
-    else:
+    elif response in ['N','n']:
         time.sleep(3)
         return
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
