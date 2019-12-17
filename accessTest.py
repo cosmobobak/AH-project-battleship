@@ -1,7 +1,9 @@
 import pyodbc
 
-conn = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\Users\Cosmo\Documents\test1.accdb;')
+#conn = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\Users\Cosmo\Documents\test1.accdb;')
+conn = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=.\test1.accdb;',autocommit=True)
 cursor = conn.cursor()
+
 cursor.execute(
 '''
 INSERT INTO testTable1(ID,Word,Iteration)
@@ -14,7 +16,6 @@ cursor.execute(
 SELECT * FROM testTable1;
 '''
 )
-
 
 for row in cursor.fetchall():
     print(row)
