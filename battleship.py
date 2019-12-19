@@ -87,7 +87,7 @@ class Board: #the board for ships and the board for guesses
         #self.layout is expected to be a 2D array
         modx,mody = orientationSeparator(orientation)
         #print(x,y)
-        for counter in range(0,ship):
+        for counter in range(ship):
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
                 self.copyBoard(savedLayout,self.layout)
@@ -113,7 +113,7 @@ class Board: #the board for ships and the board for guesses
         savedLayout = self.generateEmptyBoard()
         self.copyBoard(self.layout,savedLayout)
         modx,mody = orientationSeparator(orientation)
-        for counter in range(0,ship):
+        for counter in range(ship):
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 self.copyBoard(savedLayout,self.layout)
                 return False
@@ -133,7 +133,7 @@ class Board: #the board for ships and the board for guesses
             orientation,x,y = self.getPlacement(counter)
             self.placeShip(counter,orientation,x,y)
             self.showBoard()
-    
+
     def enemySetup(self):
         for counter in range(1,6):
             orientation,x,y = ['left','right','up','down'][random.randint(0,3)], random.randint(0,9), random.randint(0,9) #remove when not needed
