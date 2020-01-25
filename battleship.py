@@ -4,25 +4,6 @@ import random #used for enemy guessing
 #import mysql.connector
 import re
 
-def greet():
-    print("WOULD YOU LIKE TO PLAY A GAME?")
-    time.sleep(2)
-    print()
-    name = input("ENTER NAME: ")
-    time.sleep(1)
-    print("HELLO "+name.upper()+".")
-
-def orientationSeparator(orientation): #converts string directions into coordinate steps
-    if orientation == 'right':
-        modx,mody = 1,0
-    elif orientation == 'up':
-        modx,mody = 0,-1
-    elif orientation == 'left':
-        modx,mody = -1,0
-    else: #down
-        modx,mody = 0,1
-    return modx, mody
-
 class Board: #the board for ships and the board for guesses
     def __init__(self,height,width): #instantiates a board
         self.height = height
@@ -84,7 +65,7 @@ class Board: #the board for ships and the board for guesses
         #orientation is a direction string
         #x is the x position of the head of the ship
         #y is the y position of the head of the ship
-        #self.layout is expected to be a 2D array
+        #self.layout is expected to be a 2D list
         modx,mody = orientationSeparator(orientation)
         #print(x,y)
         for counter in range(ship):
@@ -176,8 +157,6 @@ class Board: #the board for ships and the board for guesses
         print(x,y)
         if targetBoard.layout[y][x] > 0: #is there a thing in the coord?
             self.layout[y][x] = 'X' #add hit to guess board
-            #if self.checkAllHits(self.getShipPlaces(x,y,targetBoard)):
-                #print('Ship sunk!')
             return True
         self.layout[y][x] = 'M' #add miss to guess board
         return False
@@ -191,6 +170,43 @@ class Board: #the board for ships and the board for guesses
         if hitCount>=15:
             return True
         return False
+
+def binarySearch(list,target):
+    mid = int(len(list)/2)
+    if list[mid] == target:
+        return list[mid]
+    #end if
+    if len(list) == 1:
+        return False
+    #end if
+    if target > list[mid]:
+        return binarySearch(list[(mid+1):],target)
+    #end if
+    return binarySearch(list[:(mid-1)],target)
+#end binarySearch
+
+def insertionSort(list):
+    for counter in range(1,len(list)):
+        holePos = counter
+        value = list[counter]
+        while holePos > 0 and list[holePos-1] > value:
+            list[holePos] = list[holePos-1]
+            holePos-=1
+        #end while
+        list[holePos] = value
+    #end for
+#end insertionSort
+
+def orientationSeparator(orientation): #converts string directions into coordinate steps
+    if orientation == 'right':
+        modx,mody = 1,0
+    elif orientation == 'up':
+        modx,mody = 0,-1
+    elif orientation == 'left':
+        modx,mody = -1,0
+    else: #down
+        modx,mody = 0,1
+    return modx, mody
 
 def setup():
     enemyBoard = Board(10,10)
@@ -208,10 +224,13 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     x = int(xy[1])-1
     return x,y
 
-def randomCoordinate():
+def randomCoordinate(moves):
     letter = ['A','B','C','D','E','F','G','H','I','J'][random.randint(0,9)]
     number = random.randint(1,10)
-    return letter+str(number)
+    move = letter+str(number)
+    while move
+    moves.append()
+    return
 
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
     end = False
@@ -258,7 +277,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
 
 def main():
     autoplay = bool(input())
-    #greet()
+    global moves = [] #SORT THIS FOR A BINARY SEARCH
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
     gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
