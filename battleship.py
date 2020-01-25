@@ -172,17 +172,21 @@ class Board: #the board for ships and the board for guesses
         return False
 
 def binarySearch(list,target):
-    mid = int(len(list)/2)
-    if list[mid] == target:
-        return list[mid]
-    #end if
-    if len(list) == 1:
-        return False
-    #end if
-    if target > list[mid]:
-        return binarySearch(list[(mid+1):],target)
-    #end if
-    return binarySearch(list[:(mid-1)],target)
+    lower = 0
+    upper = len(list)
+    while lower < upper:
+        mid = lower + int((upper - lower)/2)
+        middleValue = list[mid]
+        if target == middleValue:
+            return mid
+        elif target > middleValue:
+            if lower == mid:
+                break
+            lower = mid
+        elif target < middleValue:
+            upper = mid
+        #end elif
+    #end while
 #end binarySearch
 
 def insertionSort(list):
@@ -231,19 +235,21 @@ def randomCoordinate():
     move = letter+str(number)
     return move
 
-def generateCoordinate(moves):
+def generateCoordinate():
+    global moves
     move = randomCoordinate()
-    while not binarySearch(moves,move):
+    while binarySearch(moves,move):
         move = randomCoordinate()
     moves.append(move)
     moves = insertionSort(moves)
+    print(moves)
     return move
 
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
     end = False
     if autoplay:
         while not end:
-            if playerGuesses.guess(playerBoard,generateCoordinate(moves)):
+            if playerGuesses.guess(playerBoard,generateCoordinate()):
                 print('hit!')
                 print('YOUR GUESSES:')
                 playerGuesses.showBoard()
@@ -252,7 +258,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             if playerGuesses.winCheck():
                 print('You win!')
                 return
-            if enemyGuesses.guess(enemyBoard,generateCoordinate(moves)):
+            if enemyGuesses.guess(enemyBoard,generateCoordinate()):
                 print('ship hit!')
                 print('ENEMY GUESSES:')
                 enemyGuesses.showBoard()
@@ -271,7 +277,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
         if playerGuesses.winCheck():
             print('You win!')
             return
-        if enemyGuesses.guess(enemyBoard,generateCoordinate(moves)):
+        if enemyGuesses.guess(enemyBoard,generateCoordinate()):
             print('ship hit!')
             print('ENEMY GUESSES:')
             enemyGuesses.showBoard()
@@ -284,7 +290,8 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
 
 def main():
     autoplay = bool(input())
-    global moves = [] #SORT THIS FOR A BINARY SEARCH
+    global moves
+    moves = [] #SORT THIS FOR A BINARY SEARCH
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
     gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
