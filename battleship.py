@@ -1,7 +1,7 @@
 #battleship
 import time #used for delaying output nicely
 import random #used for enemy guessing
-#import mysql.connector
+import pyodbc
 import re
 
 class Board: #the board for ships and the board for guesses
@@ -249,7 +249,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
     end = False
     if autoplay:
         while not end:
-            if playerGuesses.guess(playerBoard,generateCoordinate()):
+            if playerGuesses.guess(playerBoard,randomCoordinate()):
                 print('hit!')
                 print('YOUR GUESSES:')
                 playerGuesses.showBoard()
@@ -288,16 +288,27 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             return
     return
 
+def databaseOutput():
+    driver = 'Driver={Microsoft Access Driver (*.mdb, *.accdb)};'
+    #path = r'DBQ=C:\Users\bobakcjs\Documents\GitHub\battleship\\'
+    path = r'DBQ=.\\'
+    database = 'battleshipDB'
+    connstring = driver + path + database + '.accdb;'
+    conn = pyodbc.connect(connstring, autocommit=True)
+    cursor = conn.cursor()
+    idstring = moves.join()
+    cursor.execute("insert into Table1 values('"+idstring+"','"+winner+"')")
+
 def main():
     autoplay = bool(input())
     global moves
-    moves = [] #SORT THIS FOR A BINARY SEARCH
+    moves = []
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
     gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
     print('GAME OVER. PLAY AGAIN?')
     response = input('Y/N: ')
-    while not re.search("[YNyn]",(response)):
+    while not re.search("^[YNyn]$",(response)):
         response = input('Y/N: ')
     if response in ['Y','y']:
         main()
@@ -305,6 +316,7 @@ def main():
     elif response in ['N','n']:
         time.sleep(3)
         return
+
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
 
 main()
