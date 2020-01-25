@@ -213,8 +213,28 @@ def randomCoordinate():
     number = random.randint(1,10)
     return letter+str(number)
 
-def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
+def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
     end = False
+    if autoplay:
+        while not end:
+            if playerGuesses.guess(playerBoard,randomCoordinate()):
+                print('hit!')
+                print('YOUR GUESSES:')
+                playerGuesses.showBoard()
+            else:
+                print('miss')
+            if playerGuesses.winCheck():
+                print('You win!')
+                return
+            if enemyGuesses.guess(enemyBoard,randomCoordinate()):
+                print('ship hit!')
+                print('ENEMY GUESSES:')
+                enemyGuesses.showBoard()
+            else:
+                print('ships are safe.')
+            if enemyGuesses.winCheck():
+                print('You lose. Better luck next time!')
+                return
     while not end:
         if playerGuesses.guess(playerBoard,playerGuesses.coordRegexCheck('enter target')):
             print('hit!')
@@ -237,10 +257,11 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses):
     return
 
 def main():
+    autoplay = bool(input())
     #greet()
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
-    gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses)
+    gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
     print('GAME OVER. PLAY AGAIN?')
     response = input('Y/N: ')
     while not re.search("[YNyn]",(response)):
