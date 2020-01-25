@@ -195,6 +195,7 @@ def insertionSort(list):
         #end while
         list[holePos] = value
     #end for
+    return list
 #end insertionSort
 
 def orientationSeparator(orientation): #converts string directions into coordinate steps
@@ -224,19 +225,25 @@ def coordinateParser(coordString): #turns A3 into (0,2)
     x = int(xy[1])-1
     return x,y
 
-def randomCoordinate(moves):
+def randomCoordinate():
     letter = ['A','B','C','D','E','F','G','H','I','J'][random.randint(0,9)]
     number = random.randint(1,10)
     move = letter+str(number)
-    while move
-    moves.append()
-    return
+    return move
+
+def generateCoordinate(moves):
+    move = randomCoordinate()
+    while not binarySearch(moves,move):
+        move = randomCoordinate()
+    moves.append(move)
+    moves = insertionSort(moves)
+    return move
 
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
     end = False
     if autoplay:
         while not end:
-            if playerGuesses.guess(playerBoard,randomCoordinate()):
+            if playerGuesses.guess(playerBoard,generateCoordinate(moves)):
                 print('hit!')
                 print('YOUR GUESSES:')
                 playerGuesses.showBoard()
@@ -245,7 +252,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             if playerGuesses.winCheck():
                 print('You win!')
                 return
-            if enemyGuesses.guess(enemyBoard,randomCoordinate()):
+            if enemyGuesses.guess(enemyBoard,generateCoordinate(moves)):
                 print('ship hit!')
                 print('ENEMY GUESSES:')
                 enemyGuesses.showBoard()
@@ -264,7 +271,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
         if playerGuesses.winCheck():
             print('You win!')
             return
-        if enemyGuesses.guess(enemyBoard,randomCoordinate()):
+        if enemyGuesses.guess(enemyBoard,generateCoordinate(moves)):
             print('ship hit!')
             print('ENEMY GUESSES:')
             enemyGuesses.showBoard()
