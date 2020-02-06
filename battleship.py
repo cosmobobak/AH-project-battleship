@@ -257,7 +257,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
                 print('miss')
             if playerGuesses.winCheck():
                 print('You win!')
-                return
+                return 'Player'
             if enemyGuesses.guess(enemyBoard,generateCoordinate()):
                 print('ship hit!')
                 print('ENEMY GUESSES:')
@@ -266,7 +266,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
                 print('ships are safe.')
             if enemyGuesses.winCheck():
                 print('You lose. Better luck next time!')
-                return
+                return 'Computer'
     while not end:
         if playerGuesses.guess(playerBoard,playerGuesses.coordRegexCheck('enter target')):
             print('hit!')
@@ -276,7 +276,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             print('miss')
         if playerGuesses.winCheck():
             print('You win!')
-            return
+            return 'Player'
         if enemyGuesses.guess(enemyBoard,generateCoordinate()):
             print('ship hit!')
             print('ENEMY GUESSES:')
@@ -285,7 +285,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             print('ships are safe.')
         if enemyGuesses.winCheck():
             print('You lose. Better luck next time!')
-            return
+            return 'Computer'
     return
 
 def databaseOutput():
@@ -296,16 +296,18 @@ def databaseOutput():
     connstring = driver + path + database + '.accdb;'
     conn = pyodbc.connect(connstring, autocommit=True)
     cursor = conn.cursor()
-    idstring = moves.join()
+    idstring = ''.join(moves)
     cursor.execute("insert into Table1 values('"+idstring+"','"+winner+"')")
 
 def main():
     autoplay = bool(input())
     global moves
+    global winner
     moves = []
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
-    gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
+    winner = gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
+    databaseOutput()
     print('GAME OVER. PLAY AGAIN?')
     response = input('Y/N: ')
     while not re.search("^[YNyn]$",(response)):
@@ -314,7 +316,7 @@ def main():
         main()
         print('GOODBYE.')
     elif response in ['N','n']:
-        time.sleep(3)
+        time.sleep(1)
         return
 
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
