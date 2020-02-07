@@ -302,10 +302,12 @@ def databaseOutput(winner):
 def main():
     autoplay = bool(input())
     global moves
+    global winner
     moves = []
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
     winner = gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
+    databaseOutput()
     print('GAME OVER. PLAY AGAIN?')
     databaseOutput(winner)
     response = input('Y/N: ')
@@ -315,7 +317,7 @@ def main():
         main()
         print('GOODBYE.')
     elif response in ['N','n']:
-        time.sleep(3)
+        time.sleep(1)
     return
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
 
