@@ -178,7 +178,7 @@ def binarySearch(list,target):
         mid = lower + int((upper - lower)/2)
         middleValue = list[mid]
         if target == middleValue:
-            return mid
+            return middleValue
         elif target > middleValue:
             if lower == mid:
                 break
@@ -187,6 +187,7 @@ def binarySearch(list,target):
             upper = mid
         #end elif
     #end while
+    return False
 #end binarySearch
 
 def insertionSort(list):
@@ -242,7 +243,6 @@ def generateCoordinate():
         move = randomCoordinate()
     moves.append(move)
     moves = insertionSort(moves)
-    print(moves)
     return move
 
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
@@ -257,7 +257,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
                 print('miss')
             if playerGuesses.winCheck():
                 print('You win!')
-                return
+                return 'Player'
             if enemyGuesses.guess(enemyBoard,generateCoordinate()):
                 print('ship hit!')
                 print('ENEMY GUESSES:')
@@ -266,7 +266,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
                 print('ships are safe.')
             if enemyGuesses.winCheck():
                 print('You lose. Better luck next time!')
-                return
+                return 'Computer'
     while not end:
         if playerGuesses.guess(playerBoard,playerGuesses.coordRegexCheck('enter target')):
             print('hit!')
@@ -276,7 +276,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             print('miss')
         if playerGuesses.winCheck():
             print('You win!')
-            return
+            return 'Player'
         if enemyGuesses.guess(enemyBoard,generateCoordinate()):
             print('ship hit!')
             print('ENEMY GUESSES:')
@@ -285,10 +285,10 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             print('ships are safe.')
         if enemyGuesses.winCheck():
             print('You lose. Better luck next time!')
-            return
-    return
+            return 'Computer'
+    return 'Unknown'
 
-def databaseOutput():
+def databaseOutput(winner):
     driver = 'Driver={Microsoft Access Driver (*.mdb, *.accdb)};'
     #path = r'DBQ=C:\Users\bobakcjs\Documents\GitHub\battleship\\'
     path = r'DBQ=.\\'
@@ -296,8 +296,8 @@ def databaseOutput():
     connstring = driver + path + database + '.accdb;'
     conn = pyodbc.connect(connstring, autocommit=True)
     cursor = conn.cursor()
-    idstring = moves.join()
-    cursor.execute("insert into Table1 values('"+idstring+"','"+winner+"')")
+    idstring = ''.join(moves)
+    cursor.execute("insert into Table1 (ID,Winner) values('"+idstring+"','"+winner+"')")
 
 def main():
     autoplay = bool(input())
@@ -305,8 +305,9 @@ def main():
     moves = []
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
     playerBoard.showBoard()
-    gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
+    winner = gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
     print('GAME OVER. PLAY AGAIN?')
+    databaseOutput(winner)
     response = input('Y/N: ')
     while not re.search("^[YNyn]$",(response)):
         response = input('Y/N: ')
@@ -315,8 +316,7 @@ def main():
         print('GOODBYE.')
     elif response in ['N','n']:
         time.sleep(3)
-        return
-
+    return
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
 
 main()
