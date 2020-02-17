@@ -12,9 +12,9 @@ cursor.execute('select * from Table1')
 for row in cursor.fetchall():
     print(row)
 
-cursor.execute("insert into Table1 values(3,'data7','data8','data9')")
+#cursor.execute("insert into Table1 values(3,'data7','data8','data9')")
 
-cursor.execute('select * from Table1')
+cursor.execute('select * from testTable')
 
 for row in cursor.fetchall():
     print(row)
