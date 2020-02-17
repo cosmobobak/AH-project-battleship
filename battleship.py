@@ -178,7 +178,7 @@ def binarySearch(list,target):
         mid = lower + int((upper - lower)/2)
         middleValue = list[mid]
         if target == middleValue:
-            return mid
+            return middleValue
         elif target > middleValue:
             if lower == mid:
                 break
@@ -187,6 +187,7 @@ def binarySearch(list,target):
             upper = mid
         #end elif
     #end while
+    return False
 #end binarySearch
 
 def insertionSort(list):
@@ -242,7 +243,6 @@ def generateCoordinate():
         move = randomCoordinate()
     moves.append(move)
     moves = insertionSort(moves)
-    print(moves)
     return move
 
 def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
@@ -286,9 +286,9 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
         if enemyGuesses.winCheck():
             print('You lose. Better luck next time!')
             return 'Computer'
-    return
+    return 'Unknown'
 
-def databaseOutput():
+def databaseOutput(winner):
     driver = 'Driver={Microsoft Access Driver (*.mdb, *.accdb)};'
     #path = r'DBQ=C:\Users\bobakcjs\Documents\GitHub\battleship\\'
     path = r'DBQ=.\\'
@@ -297,7 +297,7 @@ def databaseOutput():
     conn = pyodbc.connect(connstring, autocommit=True)
     cursor = conn.cursor()
     idstring = ''.join(moves)
-    cursor.execute("insert into Table1 values('"+idstring+"','"+winner+"')")
+    cursor.execute("insert into Table1 (ID,Winner) values('"+idstring+"','"+winner+"')")
 
 def main():
     autoplay = bool(input())
@@ -309,6 +309,7 @@ def main():
     winner = gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
     databaseOutput()
     print('GAME OVER. PLAY AGAIN?')
+    databaseOutput(winner)
     response = input('Y/N: ')
     while not re.search("^[YNyn]$",(response)):
         response = input('Y/N: ')
@@ -317,8 +318,7 @@ def main():
         print('GOODBYE.')
     elif response in ['N','n']:
         time.sleep(1)
-        return
-
+    return
     #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
 
 main()
