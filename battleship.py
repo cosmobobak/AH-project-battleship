@@ -293,6 +293,11 @@ def databaseOutput(winner):
     database = 'battleshipDB'
     connstring = driver + path + database + '.accdb;'
     conn = pyodbc.connect(connstring, autocommit=True)
+    if conn:
+        print('Connection successful!')
+    else:
+        print('Connection failed.')
+        return False
     cursor = conn.cursor()
     idstring = ''.join(moves)
     cursor.execute("insert into Table1 (ID,Winner) values('"+idstring+"','"+winner+"')")
@@ -306,9 +311,9 @@ def main():
     enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup(autoplay)
     playerBoard.showBoard()
     winner = gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
+    print('Connecting to database...')
     databaseOutput(winner)
     print('GAME OVER. PLAY AGAIN?')
-    databaseOutput(winner)
     response = input('Y/N: ')
     while not re.search("^[YNyn]$",(response)):
         response = input('Y/N: ')
