@@ -22,8 +22,8 @@ class Board: #the board for ships and the board for guesses
     def directionRegexCheck(self,message):
         print(message+': ')
         direction = input('==> ')
-        while not re.search("^left|right|up|down$",direction):
-            print(message,'left/right/up/down: ')
+        while not re.search("^left$|^right$|^up$|^down$",direction):
+            print(message,'(left/right/up/down): ')
             direction = input('==> ')
         return direction
 
@@ -67,28 +67,24 @@ class Board: #the board for ships and the board for guesses
         #y is the y position of the head of the ship
         #self.layout is expected to be a 2D list
         modx,mody = orientationSeparator(orientation)
-        #print(x,y)
+        change = False
         for counter in range(ship):
             if y > len(self.layout)-1 or x > len(self.layout[0])-1 or x < 0 or y < 0:
                 print('SHIP OFF BOARD: PLACE ELSEWHERE')
-                self.copyBoard(savedLayout,self.layout)
-                newOrientation,newx,newy = self.getPlacement(ship)
-                self.placeShip(ship,newOrientation,newx,newy)
-            if self.layout[y][x] == 0: #tests that placement space is empty
+                change = True
+                break
+            elif self.layout[y][x] == 0: #tests that placement space is empty
                 self.layout[y][x] = ship #places ship bit
                 x += modx
                 y += mody
             else:
                 print('SHIP OVERLAP: PLACE ELSEWHERE')
-
-                self.copyBoard(savedLayout,self.layout)
-
-                self.showBoard()
-
-                newOrientation,newx,newy = self.getPlacement(ship)
-                self.placeShip(ship,newOrientation,newx,newy)
-            #print(x,y)
-            #showBoard(board)
+                change = True
+                break
+        if change:
+            self.copyBoard(savedLayout,self.layout)
+            newOrientation,newx,newy = self.getPlacement(ship)
+            self.placeShip(ship,newOrientation,newx,newy)
 
     def autoPlaceShip(self,ship,orientation,x,y):
         savedLayout = self.generateEmptyBoard()
@@ -214,14 +210,16 @@ def orientationSeparator(orientation): #converts string directions into coordina
         modx,mody = 0,1
     return modx, mody
 
-def setup():
+def setup(autoplay):
     enemyBoard = Board(10,10)
     enemyGuesses = Board(10,10)
     playerBoard = Board(10,10)
     playerGuesses = Board(10,10)
-    #playerBoard.playerSetup()
     enemyBoard.enemySetup()
-    playerBoard.copyBoard(enemyBoard.layout,playerBoard.layout) #temp
+    if autoplay:
+        playerBoard.copyBoard(enemyBoard.layout,playerBoard.layout) #temp
+    else:
+        playerBoard.playerSetup()
     return enemyBoard,enemyGuesses,playerBoard,playerGuesses
 
 def coordinateParser(coordString): #turns A3 into (0,2)
@@ -249,7 +247,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
     end = False
     if autoplay:
         while not end:
-            if playerGuesses.guess(playerBoard,randomCoordinate()):
+            if playerGuesses.guess(enemyBoard,randomCoordinate()):
                 print('hit!')
                 print('YOUR GUESSES:')
                 playerGuesses.showBoard()
@@ -258,7 +256,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
             if playerGuesses.winCheck():
                 print('You win!')
                 return 'Player'
-            if enemyGuesses.guess(enemyBoard,generateCoordinate()):
+            if enemyGuesses.guess(playerBoard,generateCoordinate()):
                 print('ship hit!')
                 print('ENEMY GUESSES:')
                 enemyGuesses.showBoard()
@@ -268,7 +266,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
                 print('You lose. Better luck next time!')
                 return 'Computer'
     while not end:
-        if playerGuesses.guess(playerBoard,playerGuesses.coordRegexCheck('enter target')):
+        if playerGuesses.guess(enemyBoard,playerGuesses.coordRegexCheck('enter target')):
             print('hit!')
             print('YOUR GUESSES:')
             playerGuesses.showBoard()
@@ -277,7 +275,7 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
         if playerGuesses.winCheck():
             print('You win!')
             return 'Player'
-        if enemyGuesses.guess(enemyBoard,generateCoordinate()):
+        if enemyGuesses.guess(playerBoard,generateCoordinate()):
             print('ship hit!')
             print('ENEMY GUESSES:')
             enemyGuesses.showBoard()
@@ -300,14 +298,15 @@ def databaseOutput(winner):
     cursor.execute("insert into Table1 (ID,Winner) values('"+idstring+"','"+winner+"')")
 
 def main():
-    autoplay = bool(input())
+    autoplay = False
+    #autoplay = True
     global moves
     global winner
     moves = []
-    enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup()
+    enemyBoard,enemyGuesses,playerBoard,playerGuesses = setup(autoplay)
     playerBoard.showBoard()
     winner = gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay)
-    databaseOutput()
+    databaseOutput(winner)
     print('GAME OVER. PLAY AGAIN?')
     databaseOutput(winner)
     response = input('Y/N: ')
