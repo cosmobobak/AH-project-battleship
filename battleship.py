@@ -288,7 +288,6 @@ def gameLoop(enemyBoard,enemyGuesses,playerBoard,playerGuesses,autoplay):
 
 def databaseOutput(winner):
     driver = 'Driver={Microsoft Access Driver (*.mdb, *.accdb)};'
-    #path = r'DBQ=C:\Users\bobakcjs\Documents\GitHub\battleship\\'
     path = r'DBQ=.\\'
     database = 'battleshipDB'
     connstring = driver + path + database + '.accdb;'
@@ -303,8 +302,7 @@ def databaseOutput(winner):
     cursor.execute("insert into Table1 (ID,Winner) values('"+idstring+"','"+winner+"')")
 
 def main():
-    autoplay = False
-    #autoplay = True
+    autoplay = False #swap to True for autorun
     global moves
     global winner
     moves = []
@@ -323,6 +321,5 @@ def main():
     elif response in ['N','n']:
         time.sleep(1)
     return
-    #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
 
 main()
