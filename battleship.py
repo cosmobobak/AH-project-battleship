@@ -319,6 +319,5 @@ def main():
     elif response in ['N','n']:
         time.sleep(1)
     return
-    #PUT SOME DATA IN A FILE HERE FOR THE DB PROGRAM TO EAT
 
 main()
